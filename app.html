@@ -11,6 +11,8 @@
     <meta http-equiv="Permissions-Policy" content="geolocation=(), microphone=(), camera=()">
     <title>Keyword & Link Assistant</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="fontawesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <style>
         body { 
             font-family: 'Poppins', sans-serif; 
@@ -113,6 +115,51 @@
             font-size: 0.8em;
             color: #666;
         }
+        .copy-btn {
+            background: none;
+            border: none;
+            color: rgba(168, 58, 238, 0.7);
+            cursor: pointer;
+            font-size: 0.8em;
+            padding: 2px 5px;
+            margin-left: 5px;
+            transition: color 0.3s;
+            position: relative; /* Required for custom tooltip positioning */
+        }
+
+        .copy-btn:hover {
+            color: rgb(168, 58, 238);
+        }
+
+        /* Custom tooltip styles */
+        .copy-btn::after {
+            content: 'Copy';
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #555;
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s;
+        }
+
+        .copy-btn:hover::after {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* For smaller screens */
+        @media (max-width: 600px) {
+            .copy-btn {
+                padding: 5px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -187,12 +234,36 @@
                 const row = tbody.insertRow();
                 ['Keyword', 'URL', 'Position', 'Search Volume', 'Keyword Intents', 'Group', 'Topic'].forEach(key => {
                     const cell = row.insertCell();
-                    cell.textContent = item[key];
+                    if (key === 'Keyword' || key === 'URL') {
+                        const textSpan = document.createElement('span');
+                        textSpan.textContent = item[key];
+                        cell.appendChild(textSpan);
+
+                        const copyBtn = document.createElement('button');
+                        copyBtn.innerHTML = '<i class="fas fa-clipboard"></i>';
+                        copyBtn.className = 'copy-btn';
+                        copyBtn.title = 'Copy'; // This adds a basic tooltip
+                        copyBtn.onclick = (e) => {
+                            e.stopPropagation(); // Prevent triggering the cell's click event
+                            copyToClipboard(item[key]);
+                        };
+                        cell.appendChild(copyBtn);
+                    } else {
+                        cell.textContent = item[key];
+                    }
                     cell.onclick = () => addFilter(key, item[key]);
                 });
             });
 
             renderFilterPanel();
+        }
+
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                alert('Copied to clipboard!');
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
+            });
         }
 
         function addFilter(key, value) {
