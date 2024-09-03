@@ -12,7 +12,7 @@
     <title>Keyword & Link Assistant</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="fontawesome.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    
     <style>
         body { 
             font-family: 'Poppins', sans-serif; 
@@ -120,7 +120,7 @@
             border: none;
             color: rgba(168, 58, 238, 0.7);
             cursor: pointer;
-            font-size: 0.8em;
+            font-size: 1em; /* Adjusted for Unicode character */
             padding: 2px 5px;
             margin-left: 5px;
             transition: color 0.3s;
@@ -240,7 +240,7 @@
                         cell.appendChild(textSpan);
 
                         const copyBtn = document.createElement('button');
-                        copyBtn.innerHTML = '<i class="fas fa-clipboard"></i>';
+                        copyBtn.textContent = '📋'; // Unicode clipboard icon
                         copyBtn.className = 'copy-btn';
                         copyBtn.title = 'Copy'; // This adds a basic tooltip
                         copyBtn.onclick = (e) => {
