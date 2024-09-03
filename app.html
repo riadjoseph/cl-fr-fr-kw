@@ -9,7 +9,7 @@
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
     <meta name="referrer" content="strict-origin-when-cross-origin">
     <meta http-equiv="Permissions-Policy" content="geolocation=(), microphone=(), camera=()">
-    <title>Keyword & Link Assistant (Alpha version)</title>
+    <title>Keyword & Link Assistant</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         body { 
@@ -53,8 +53,13 @@
             border: 1px solid #ddd; 
             padding: 8px; 
             text-align: left; 
+            transition: background-color 0.3s;
         }
         th { background-color: #f2f2f2; }
+        td:hover {
+            background-color: #f0f0f0;
+            cursor: pointer;
+        }
         #filterPanel { 
             margin-bottom: 10px; 
             font-size: 0.9em;
@@ -66,6 +71,11 @@
             padding: 5px 10px; 
             border-radius: 5px; 
             cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        .filter-item:hover {
+            background-color: #e0e0e0;
+            transform: scale(1.05);
         }
         .clear-filters {
             margin: 5px;
@@ -75,6 +85,11 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        .clear-filters:hover {
+            background-color: #d32f2f;
+            transform: scale(1.05);
         }
         @media (max-width: 600px) {
             body {
