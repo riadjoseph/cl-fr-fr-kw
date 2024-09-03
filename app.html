@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow, noarchive">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <meta http-equiv="Permissions-Policy" content="geolocation=(), microphone=(), camera=()">
+    <title>Keyword & Link Assistant (Alpha version)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { 
+            font-family: 'Poppins', sans-serif; 
+            line-height: 1.6; 
+            margin: 0; 
+            padding: 20px; 
+            font-size: 16px;
+        }
+        .header { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        .header img {
+            max-height: 40px;
+            width: auto;
+            margin: 5px;
+        }
+        .header h1 {
+            font-size: 1.2em;
+            margin: 10px 0;
+            text-align: center;
+            width: 100%;
+        }
+        .alert { 
+            background-color: rgba(168, 58, 238, 0.2); /* Light shade of rgb(168, 58, 238) */
+            padding: 10px; 
+            margin-bottom: 20px; 
+            font-size: 0.9em;
+            border-radius: 5px; /* Optional: adds rounded corners */
+        }
+        table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            font-size: 0.9em;
+        }
+        th, td { 
+            border: 1px solid #ddd; 
+            padding: 8px; 
+            text-align: left; 
+        }
+        th { background-color: #f2f2f2; }
+        #filterPanel { 
+            margin-bottom: 10px; 
+            font-size: 0.9em;
+        }
+        .filter-item { 
+            display: inline-block; 
+            margin: 5px; 
+            background-color: #f0f0f0; 
+            padding: 5px 10px; 
+            border-radius: 5px; 
+            cursor: pointer;
+        }
+        .clear-filters {
+            margin: 5px;
+            padding: 5px 10px;
+            background-color: #f44336;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+            .header h1 {
+                font-size: 1em;
+            }
+            table {
+                font-size: 0.8em;
+            }
+            th, td {
+                padding: 5px;
+            }
+        }
+        footer {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #f2f2f2;
+            text-align: center;
+            font-size: 0.8em;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <img src="botify-black-logo.png" alt="Botify Logo">
+        <h1>Keyword & Link Assistant (Alpha version) Confidential</h1>
+        <img src="cl-logo.svg" alt="CL Logo">
+    </div>
+
+    <h2>Keywords and URLs appearing on position 7 and above, non-branded, for Volume 1500/month and above.</h2>
+    <p>Click on a Group Cluster number to see pages and anchor text (keywords) that can be used for internal linking.</p>
+
+    <div class="alert">
+        The Topic is generated with AI and needs to be refined. Some entries are not accurate yet. Topic is generated from a weighted list of keywords and URL paths.
+        <br>
+        The data is confidential and should not be shared with anyone outside the business. 
+        <br>
+        This is limited to the category and sub-category pages.
+        This is hopefully easier to use than an excel spreadsheet.
+    </div>
+
+    <div id="filterPanel"></div>
+    <table id="dataTable">
+        <thead>
+            <tr>
+                <th>Keyword</th>
+                <th>URL</th>
+                <th>Position</th>
+                <th>Search Volume</th>
+                <th>Keyword Intents</th>
+                <th>Group</th>
+                <th>Topic</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <button onclick="downloadCSV()">Download CSV</button>
+
+    <footer id="footer"></footer>
+
+    <script>
+        let keywordData = [];
+        let filters = {};
+
+        async function fetchData() {
+            try {
+                const response = await fetch('db.json');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+                keywordData = data.keywords;
+                renderTable();
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                document.body.innerHTML += `<p>Error loading data: ${error.message}</p>`;
+            }
+        }
+
+        function renderTable() {
+            const tbody = document.querySelector('#dataTable tbody');
+            tbody.innerHTML = '';
+
+            const filteredData = keywordData.filter(item => {
+                return Object.entries(filters).every(([key, value]) => {
+                    return item[key] == value;
+                });
+            });
+
+            filteredData.forEach(item => {
+                const row = tbody.insertRow();
+                ['Keyword', 'URL', 'Position', 'Search Volume', 'Keyword Intents', 'Group', 'Topic'].forEach(key => {
+                    const cell = row.insertCell();
+                    cell.textContent = item[key];
+                    cell.onclick = () => addFilter(key, item[key]);
+                });
+            });
+
+            renderFilterPanel();
+        }
+
+        function addFilter(key, value) {
+            filters[key] = value;
+            renderTable();
+        }
+
+        function removeFilter(key) {
+            delete filters[key];
+            renderTable();
+        }
+
+        function clearAllFilters() {
+            filters = {};
+            renderTable();
+        }
+
+        function renderFilterPanel() {
+            const panel = document.getElementById('filterPanel');
+            panel.innerHTML = 'Filters: ';
+            Object.entries(filters).forEach(([key, value]) => {
+                const span = document.createElement('span');
+                span.className = 'filter-item';
+                span.textContent = `${key}: ${value}`;
+                span.onclick = () => removeFilter(key);
+                panel.appendChild(span);
+            });
+
+            if (Object.keys(filters).length > 0) {
+                const clearButton = document.createElement('button');
+                clearButton.textContent = 'Clear All Filters';
+                clearButton.className = 'clear-filters';
+                clearButton.onclick = clearAllFilters;
+                panel.appendChild(clearButton);
+            }
+        }
+
+        function downloadCSV() {
+            const filteredData = keywordData.filter(item => {
+                return Object.entries(filters).every(([key, value]) => item[key] == value);
+            });
+
+            const headers = ['Keyword', 'URL', 'Position', 'Search Volume', 'Keyword Intents', 'Group', 'Topic'];
+            const csvContent = "data:text/csv;charset=utf-8," 
+                + headers.join(",") + "\n"
+                + filteredData.map(row => {
+                    return headers.map(key => {
+                        let value = row[key];
+                        return typeof value === 'string' ? `"${value.replace(/"/g, '""')}"` : value;
+                    }).join(",");
+                }).join("\n");
+
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", "keyword_data.csv");
+            document.body.appendChild(link);
+            link.click();
+        }
+
+        function updateFooter() {
+            const footer = document.getElementById('footer');
+            const currentDate = new Date().toLocaleDateString('fr-FR');
+            footer.innerHTML = `Confidential. Version FR-FR-1.1 + ${currentDate}<br>Data belongs to CL.`;
+        }
+
+        // Call updateFooter when the page loads
+        updateFooter();
+
+        fetchData();
+    </script>
+</body>
+</html>
