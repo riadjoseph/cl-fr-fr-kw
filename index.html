@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow, noarchive">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <meta http-equiv="Permissions-Policy" content="geolocation=(), microphone=(), camera=()">
+    <title>Choose your version</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { 
+            font-family: 'Poppins', sans-serif; 
+            line-height: 1.6; 
+            margin: 0; 
+            padding: 20px; 
+            font-size: 16px;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        .header { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        .header img {
+            max-height: 40px;
+            width: auto;
+            margin: 5px;
+        }
+        .header h1 {
+            font-size: 1.2em;
+            margin: 10px 0;
+            text-align: center;
+            width: 100%;
+        }
+        .content {
+            flex-grow: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        .app-link {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        .app-link:hover {
+            background-color: #0056b3;
+        }
+        footer {
+            margin-top: auto;
+            padding: 10px;
+            background-color: #f2f2f2;
+            text-align: center;
+            font-size: 0.8em;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <img src="botify-black-logo.png" alt="Botify Logo">
+        <h1>Keyword & Link Assistant (Alpha version) - Confidential</h1>
+        
+    </div>
+
+    <div class="content">
+        <img src="cl-logo.svg" alt="CL Logo">
+        <p>Click the button below to access the full application:</p>
+        <a href="app.html" class="app-link">Launch Application</a>
+    </div>
+
+    <footer id="footer"></footer>
+
+    <script>
+        function updateFooter() {
+            const footer = document.getElementById('footer');
+            const currentDate = new Date().toLocaleDateString('fr-FR');
+            footer.innerHTML = `Confidential. Version FR-FR-1.1 + ${currentDate}<br>Data belongs to CL.`;
+        }
+
+        // Call updateFooter when the page loads
+        updateFooter();
+    </script>
+</body>
+</html>
