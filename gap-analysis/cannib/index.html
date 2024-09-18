@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Keyword and URL Cannibalization Checker</title>
+    <!-- Security headers -->
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta name="robots" content="noindex, nofollow, nosnippet, noarchive">
+    <!-- Permissions Policy -->
+    <meta http-equiv="Permissions-Policy" content="microphone=(), camera=(), geolocation=()">
+    <!-- Fonts and Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    
+    <!-- Include Chart.js library -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Include Pako for compression (if needed) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pako/1.0.11/pako.min.js"></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="/">Start</a></li>
+                <li><a href="/gap-analysis/gap-analysis.html">Gap Analysis</a></li>
+                <li><a href="/app.html">Internal Linking</a></li>
+                <li><a href="/cannib/index.html">Cannibalization Checker</a></li>
+            </ul>
+        </nav>
+        <div class="logos">
+            <img src="/botify-black-logo.png" alt="Botify Logo" class="logo">
+            <img src="/cl-logo.svg" alt="Cl Logo" class="logo">
+        </div>
+    </header>
+    <h1>Keyword and URL Cannibalization Checker</h1>
+    <h2>How to use:</h2>
+    <ul>
+        <li>Click anywhere in the table to filter by a cluster of keywords.</li>
+        <li>Click on a keyword to check which URLs are competing.</li>
+        <li>Verify the Comment row (Risk or Potential).</li>
+        <li>Use the Average Position filter to focus on lower rankings.</li>
+        <li>Download the CSV to analyze the data offline for decision making.</li>
+    </ul>
+
+    <div data-nosnippet class="graph-thumbnail-container">
+
+       
+        <!-- Directory Chart -->
+        <div class="canvas-container">
+            <canvas id="directoryChart" width="800" height="400"></canvas>
+        </div>
+    </div>
+
+    <div data-nosnippet class="summary-table">
+        <h3>Top Performers</h3>
+        <table id="summaryTable">
+            <thead>
+                <tr>
+                    <th>Metric</th>
+                    <th>Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Summary data will be populated here -->
+            </tbody>
+        </table>
+    </div>
+
+    <div data-nosnippet id="filterPanel">
+        <div id="activeFilters"></div>
+        <button class="danger" onclick="clearFilters()">Clear Filters</button>
+        <button class="secondary" onclick="resetSorting()">Reset Sorting</button>
+        <button class="secondary" onclick="downloadCSV()">Download CSV</button>
+    </div>
+
+    <div id="rowCount"></div>
+    <div id="loadingProgress" style="display: none;">Loading data: 0%</div>
+
+    <div data-nosnippet class="tables-wrapper">
+        <div class="main-table">
+            <div class="table-container">
+                <table id="dataTable">
+                    <thead>
+                        <tr id="headerRow">
+                            <!-- Table headers will be dynamically populated here -->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Table rows will be dynamically populated here -->
+                    </tbody>
+                </table>
+            </div>
+            <div class="pagination" id="paginationControls">
+                <!-- Pagination buttons will be populated here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Include your main JavaScript -->
+    <script src="script.js"></script>
+</body>
+</html>

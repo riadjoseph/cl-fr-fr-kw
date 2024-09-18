@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Gap Analysis</title>
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta name="robots" content="noindex, nofollow, nosnippet, noarchive">
+    <!-- Permissions Policy -->
+    <meta http-equiv="Permissions-Policy" content="microphone=(), camera=(), geolocation=()">
+    <link rel="stylesheet" href="assets/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Include Font Awesome in your HTML <head> -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="/">Start</a></li>
+                <li><a href="/gap-analysis/gap-analysis.html">Gap Analysis</a></li>
+                <li><a href="/app.html">Internal Linking</a></li>
+                <li><a href="/cannib/index.html">Cannibalization Checker</a></li>
+            </ul>
+        </nav>
+        <div class="logos">
+            <img src="/botify-black-logo.png" alt="Botify Logo" class="logo">
+            <img src="/cl-logo.svg" alt="CL Logo" class="logo">
+        </div>
+    </header>
+    <h1>Keyword Gap Analysis Dashboard</h1>
+    <div style="margin-bottom: 20px;">
+        <info>Last updated: 18 Sept 2024</info>
+    <ul>
+        <li>Keywords for which Christian Louboutin website pages are <b>Missing</b> or <b>Weaker</b> ranked than the competition.</li>
+        <li>Based on external SERP Analysis tools, for Sept 2024.</li>
+        <li>Currently available for <b>US, FR, AE, SA, JP</b> regions.</li>
+    </ul>
+    </div>
+    <div class="filters">
+        <label for="regionSelect">Region:</label>
+        <select id="regionSelect">
+            <option value="">-- Select Region --</option>
+        </select>
+
+        <label for="competitorSelect">Competitor:</label>
+        <select id="competitorSelect" disabled>
+            <option value="">-- Select Competitor --</option>
+        </select>
+
+        <label for="keywordSearch">Search Keyword:</label>
+        <input type="text" id="keywordSearch" placeholder="Enter keyword...">
+
+        <button id="downloadCsv">Download CSV</button>
+    </div>
+
+    <!-- Canvas for Graph -->
+    <div class="chart-container">
+        <canvas id="competitorChart"></canvas>
+    </div>
+
+    <table id="resultsTable">
+        <thead>
+            <tr>
+                <th>Keyword</th>
+                <th>Intents</th>
+                <th>Volume</th>
+                <th>Highest Ranking Competitor</th>
+                <th>Competitor Pages</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Dynamic Content -->
+        </tbody>
+    </table>
+
+    <script src="assets/script-gap.js"></script>
+
+</body>
+</html>
