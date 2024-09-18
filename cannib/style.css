@@ -27,94 +27,17 @@
         }
 
         .graph-thumbnail-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto;
-            width: 100%;
-            margin-bottom: 30px;
-        }
-
-/* Ensure the parent container uses Flexbox */
-.filters-and-graph-container {
     display: flex;
-    flex-direction: row; /* Align children horizontally */
-    justify-content: space-between; /* Optional: adds space between the children */
-    align-items: flex-start; /* Align items to the top */
-    gap: 20px; /* Optional: adds space between the children */
-    flex-wrap: wrap; /* Allows items to wrap on smaller screens */
-    margin-bottom: 20px; /* Optional: adds space below the container */
-}
-
-/* Style for the filters container */
-.filters-container {
-    flex: 1 1 250px; /* Grow and shrink with a base width of 250px */
-    width: 35%; /* Optional: sets a maximum width */
-    background-color: #f9f9f9; /* Optional: background color for visibility */
-    padding: 15px; /* Optional: padding inside the filters container */
-    border: 1px solid #ddd; /* Optional: border for definition */
-    border-radius: 5px; /* Optional: rounded corners */
-}
-
-/* Style for the canvas container */
-.canvas-container {
-    flex: 3 1 600px; /* Grow and shrink with a base width of 600px */
-    background-color: #fff; /* Optional: background color */
-    padding: 15px; /* Optional: padding inside the canvas container */
-    border: 1px solid #ddd; /* Optional: border for definition */
-    border-radius: 5px; /* Optional: rounded corners */
-}
-
-        /* Responsive Adjustments */
-@media (max-width: 900px) {
-    .filters-and-graph-container {
-        flex-direction: column; /* Stack vertically on smaller screens */
-    }
-
-    .filters-container,
-    .canvas-container {
-        flex: 1 1 100%; /* Take full width */
-        max-width: 100%; /* Remove max-width restrictions */
-    }
-}
-
-header {
-    display: flex;
-    justify-content: space-between;
+    flex-direction: column;
     align-items: center;
-    padding: 10px 20px;
-    background-color: #f8f8f8;
-}
-
-nav ul {
-    list-style-type: none;
-    padding: 0;
-    display: flex;
-}
-
-nav ul li {
-    margin-right: 20px;
-}
-
-nav ul li a {
-    text-decoration: none;
-    color: #333;
-    font-weight: bold;
-}
-
-.logos {
-    display: flex;
-    align-items: center;
-}
-
-.logo {
-    height: 30px;
-    margin-left: 10px;
+    justify-content: center;
+    margin: 0 auto;
+    width: 100%;
+    margin-bottom: 30px;
 }
 
 .canvas-container {
-    width: 65%;
+    width: 100%;
     height: 400px;
     margin-bottom: 20px;
 }
@@ -447,16 +370,103 @@ nav ul li a {
 }
 
 .graph-thumbnail-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto;
-    width: 100%;
     margin-bottom: 30px;
 }
 
 .summary-table {
     margin-top: 30px;
     margin-bottom: 30px;
+}
+
+.filters-and-graph-container {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.filters-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 30%;
+}
+
+.filter {
+    display: flex;
+    flex-direction: column;
+}
+
+.filter label {
+    margin-bottom: 5px;
+}
+
+.filter select {
+    width: 100%;
+}
+
+.canvas-container {
+    width: 65%;
+}
+
+.logos {
+    display: flex;
+    align-items: center;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #f8f8f8;
+}
+
+.header img {
+    max-height: 40px;
+    width: auto;
+    margin: 5px;
+}
+
+nav ul {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+}
+
+nav ul li {
+    margin-right: 20px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+}
+
+.logos {
+    display: flex;
+    align-items: center;
+}
+
+.logo {
+    height: 30px;
+    margin-left: 10px;
+}
+
+.filters {
+    margin-bottom: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 15px;
+}
+
+.filters label {
+    margin-right: 5px;
+    font-weight: bold;
+}
+
+.filters select, .filters input, .filters button {
+    padding: 5px;
+    font-size: 14px;
 }
