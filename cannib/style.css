@@ -27,13 +27,56 @@
         }
 
         .graph-thumbnail-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+            width: 100%;
+            margin-bottom: 30px;
+        }
+
+/* Ensure the parent container uses Flexbox */
+.filters-and-graph-container {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto;
-    width: 100%;
-    margin-bottom: 30px;
+    flex-direction: row; /* Align children horizontally */
+    justify-content: space-between; /* Optional: adds space between the children */
+    align-items: flex-start; /* Align items to the top */
+    gap: 20px; /* Optional: adds space between the children */
+    flex-wrap: wrap; /* Allows items to wrap on smaller screens */
+    margin-bottom: 20px; /* Optional: adds space below the container */
+}
+
+/* Style for the filters container */
+.filters-container {
+    flex: 1 1 250px; /* Grow and shrink with a base width of 250px */
+    width: 35%; /* Optional: sets a maximum width */
+    background-color: #f9f9f9; /* Optional: background color for visibility */
+    padding: 15px; /* Optional: padding inside the filters container */
+    border: 1px solid #ddd; /* Optional: border for definition */
+    border-radius: 5px; /* Optional: rounded corners */
+}
+
+/* Style for the canvas container */
+.canvas-container {
+    flex: 3 1 600px; /* Grow and shrink with a base width of 600px */
+    background-color: #fff; /* Optional: background color */
+    padding: 15px; /* Optional: padding inside the canvas container */
+    border: 1px solid #ddd; /* Optional: border for definition */
+    border-radius: 5px; /* Optional: rounded corners */
+}
+
+        /* Responsive Adjustments */
+@media (max-width: 900px) {
+    .filters-and-graph-container {
+        flex-direction: column; /* Stack vertically on smaller screens */
+    }
+
+    .filters-container,
+    .canvas-container {
+        flex: 1 1 100%; /* Take full width */
+        max-width: 100%; /* Remove max-width restrictions */
+    }
 }
 
 header {
@@ -71,7 +114,7 @@ nav ul li a {
 }
 
 .canvas-container {
-    width: 100%;
+    width: 65%;
     height: 400px;
     margin-bottom: 20px;
 }
@@ -404,6 +447,12 @@ nav ul li a {
 }
 
 .graph-thumbnail-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    width: 100%;
     margin-bottom: 30px;
 }
 

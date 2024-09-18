@@ -1,30 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Keyword and URL Cannibalization Checker</title>
-    <!-- Security headers -->
-    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
-    <meta http-equiv="X-Content-Type-Options" content="nosniff">
-    <meta name="robots" content="noindex, nofollow, nosnippet, noarchive">
-    <!-- Permissions Policy -->
-    <meta http-equiv="Permissions-Policy" content="microphone=(), camera=(), geolocation=()">
-    <!-- Fonts and Icons -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-    <link rel="manifest" href="/site.webmanifest">
-    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
-    
-    <!-- Include Chart.js library -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- Include Pako for compression (if needed) -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pako/1.0.11/pako.min.js"></script>
-</head>
+    <head>
+        <!-- ... existing head content ... -->
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Keyword and URL Cannibalization Checker</title>
+        <!-- Security headers -->
+        <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+        <meta http-equiv="X-Content-Type-Options" content="nosniff">
+        
+        <meta name="robots" content="noindex, nofollow, nosnippet, noarchive">
+        
+        <!-- Permissions Policy -->
+        <meta http-equiv="Permissions-Policy" content="microphone=(), camera=(), geolocation=()">
+        
+        <!-- Fonts and Icons -->
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+        <link rel="manifest" href="/site.webmanifest">
+        <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+        
+        <!-- Include Chart.js library -->
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <!-- Include Pako for compression (if needed) -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pako/1.0.11/pako.min.js"></script>
+    </head>
 <body>
     <header>
         <nav>
@@ -46,17 +50,34 @@
         <li>Click anywhere in the table to filter by a cluster of keywords.</li>
         <li>Click on a keyword to check which URLs are competing.</li>
         <li>Verify the Comment row (Risk or Potential).</li>
-        <li>Use the Average Position filter to focus on lower rankings.</li>
-        <li>Download the CSV to analyze the data offline for decision making.</li>
     </ul>
 
-    <div data-nosnippet class="graph-thumbnail-container">
 
-       
-        <!-- Directory Chart -->
-        <div class="canvas-container">
-            <canvas id="directoryChart" width="800" height="400"></canvas>
+        <div data-nosnippet class="graph-thumbnail-container">
+<!-- New Filters --> 
+        <div class="filters-and-graph-container">
+            <div class="filters-container">
+                <div class="filter">
+                    <label for="marketFilter">Market:</label>
+                    <select id="marketFilter" multiple></select>
+                </div>
+                <div class="filter">
+                    <label for="segmentFilter">Botify Segment:</label>
+                    <select id="segmentFilter" multiple></select>
+                </div>
+                <div class="filter">
+                    <label for="clusterFilter">Cluster:</label>
+                    <select id="clusterFilter" multiple></select>
+                </div>
+
+            </div>
+<!-- Directory Chart -->
+<div class="canvas-container">
+    <canvas id="directoryChart" width="800" height="400"></canvas>
+</div>
         </div>
+
+        
     </div>
 
     <div data-nosnippet class="summary-table">

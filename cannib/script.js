@@ -1,8 +1,5 @@
 // script.js
 
-// Initialize Web Worker
-// const worker = new Worker('worker.js');
-
 // Global Variables
 let keywordData = [];
 let filters = {};
@@ -47,7 +44,7 @@ function initChart() {
     directoryChart = new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: [], // PageType_Botify values
+            labels: [], // PageType_Botify_Merged values
             datasets: [{
                 label: 'Count of URLs',
                 data: [],
@@ -88,7 +85,7 @@ function initChart() {
 function updateChart(filteredData) {
     const segmentCounts = {};
     filteredData.forEach(item => {
-        const segment = item['PageType_Botify'];
+        const segment = item['PageType_Botify_Merged'];
         if (segment) {
             if (!segmentCounts[segment]) {
                 segmentCounts[segment] = 0;
@@ -105,50 +102,11 @@ function updateChart(filteredData) {
     directoryChart.update();
 }
 
-// Handle Messages from Worker
-// worker.onmessage = function(event) {
-//     const { status, loadedChunks: loaded, data, total } = event.data;
-
-//     if (status === 'loaded') {
-//         // Update loaded chunks
-//         loaded.forEach(chunkNumber => {
-//             loadedChunks[chunkNumber] = true;
-//         });
-
-//         // Hide loading progress and update progress to 100%
-//         const loadingProgress = document.getElementById('loadingProgress');
-//         loadingProgress.textContent = 'Loading data: 100%';
-//         setTimeout(() => {
-//             loadingProgress.style.display = 'none';
-//         }, 500); // Slight delay for user experience
-
-//         // Refresh table and chart
-//         renderTable();
-//         renderPagination();
-//         updateChart(applyFilters(keywordData, filters));
-//     }
-
-//     if (status === 'error') {
-//         console.error(event.data.message);
-//         const loadingProgress = document.getElementById('loadingProgress');
-//         loadingProgress.textContent = `Error: ${event.data.message}`;
-//         loadingProgress.style.display = 'none';
-//     }
-// };
-
-// Function to Load Required Chunks
-function loadRequiredChunks() {
-    renderTable();
-    renderPagination();
-    updateChart(applyFilters(keywordData, filters));
-    document.getElementById('loadingProgress').style.display = 'none';
-}
-
 // Apply Filters to Data
 function applyFilters(data, filters) {
     return data.filter(item => {
         return Object.entries(filters).every(([key, values]) => {
-            if (key === 'avgPosition') {
+            if (key === 'Avg_Position') {
                 const avgPosition = parseFloat(item.Avg_Position);
                 return values.some(range => {
                     if (range === '21+') {
@@ -157,12 +115,15 @@ function applyFilters(data, filters) {
                     const [min, max] = range.split('-').map(Number);
                     return avgPosition >= min && avgPosition <= max;
                 });
-            } else if (key === 'cluster_label') {
-                return values.includes(item['PageType_Botify']);
-            } else if (key === 'country') {
-                return values.includes(item.Market);
+            } else if (key === 'PageType_Botify_Merged') {
+                return values.includes(item['PageType_Botify_Merged']);
+            } else if (key === 'Market') {
+                return values.includes(item['Market']);
+            } else if (key === 'Cluster') {
+                return values.includes(item['Cluster']);
             }
-            return item[key] == values;
+            // Add more conditions here if you have other filter keys
+            return true; // Default to true if key is not recognized
         });
     });
 }
@@ -183,7 +144,8 @@ function renderHeaders() {
             'Directory_1',
             'Directory_2',
             'Full Breadcrumb Name',
-            'PageType_Botify',
+            'PageType_Botify_Merged',
+            'Cluster',
             ...allHeaders.filter(header => ![
                 'Keyword',
                 'Page',
@@ -194,7 +156,8 @@ function renderHeaders() {
                 'Directory_1',
                 'Directory_2',
                 'Full Breadcrumb Name',
-                'PageType_Botify'
+                'PageType_Botify_Merged',
+                'Cluster'
             ].includes(header))
         ];
         reorderedHeaders.forEach(header => {
@@ -215,10 +178,10 @@ function renderHeaders() {
 
 // Render the Data Table
 function renderTable() {
+    const filteredData = applyFilters(keywordData, filters);
+    console.log('Data to render:', filteredData); // For debugging
     const tbody = document.querySelector('#dataTable tbody');
     tbody.innerHTML = '';
-
-    let filteredData = applyFilters(keywordData, filters);
 
     // Sort Data
     if (currentSort.column) {
@@ -254,7 +217,8 @@ function renderTable() {
             'Directory_1',
             'Directory_2',
             'Full Breadcrumb Name',
-            'PageType_Botify',
+            'PageType_Botify_Merged',
+            'Cluster',
             ...allKeys.filter(key => ![
                 'Keyword',
                 'Page',
@@ -265,7 +229,8 @@ function renderTable() {
                 'Directory_1',
                 'Directory_2',
                 'Full Breadcrumb Name',
-                'PageType_Botify'
+                'PageType_Botify_Merged',
+                'Cluster'
             ].includes(key))
         ];
         reorderedKeys.forEach(key => {
@@ -387,7 +352,6 @@ function renderPagination() {
         button.className = 'page-button' + (i === currentPage ? ' active' : '');
         button.onclick = () => {
             currentPage = i;
-            loadRequiredChunks();
             renderTable();
             renderPagination();
         };
@@ -416,20 +380,25 @@ function sortTable(column) {
 
 // Add a Filter
 function addFilter(key, value) {
-    if (key === 'PageType_Botify') {
-        key = 'cluster_label';
+    // Map keys to data keys
+    const keyMapping = {
+        'PageType_Botify': 'PageType_Botify_Merged',
+        // Add other mappings if necessary
+    };
+    const dataKey = keyMapping[key] || key;
+
+    if (!filters[dataKey]) {
+        filters[dataKey] = [];
     }
-    if (!filters[key]) {
-        filters[key] = [];
-    }
-    if (!filters[key].includes(value)) {
-        filters[key].push(value);
+    if (!filters[dataKey].includes(value)) {
+        filters[dataKey].push(value);
     }
     // Reset to first page
     currentPage = 1;
     renderTable();
     renderActiveFilters();
     renderPagination();
+    updateChart(applyFilters(keywordData, filters));
 }
 
 // Remove a Filter
@@ -450,7 +419,7 @@ function renderActiveFilters() {
         values.forEach(value => {
             const filterDiv = document.createElement('div');
             filterDiv.className = 'filter';
-            filterDiv.textContent = `${key === 'country' ? 'Country' : key}: ${value}`;
+            filterDiv.textContent = `${key}: ${value}`;
             const removeIcon = document.createElement('span');
             removeIcon.className = 'remove-filter';
             removeIcon.textContent = '✖';
@@ -499,7 +468,7 @@ function clearFilters() {
     filters = {};
     
     // Clear select elements
-    ['avgPositionSelect', 'clusterSelect', 'countrySelect'].forEach(id => {
+    ['marketFilter', 'segmentFilter', 'clusterFilter'].forEach(id => {
         const select = document.getElementById(id);
         if (select) {
             Array.from(select.options).forEach(option => option.selected = false);
@@ -539,6 +508,7 @@ document.addEventListener('DOMContentLoaded', function() {
     loadData();
 });
 
+// Load Data Function
 function loadData() {
     const totalChunks = 11; // Set this to the exact number of chunks you have
     let loadedChunks = 0;
@@ -568,8 +538,10 @@ function loadData() {
 
     function finishLoading() {
         renderHeaders();
-        loadRequiredChunks();
-        populateCountryFilter();
+        renderTable();
+        renderPagination();
+        populateFilters();
+        addFilterEventListeners();
         document.getElementById('loadingProgress').style.display = 'none';
     }
 
@@ -578,64 +550,63 @@ function loadData() {
     }
 }
 
-// Function to populate the Country filter
-function populateCountryFilter() {
-    const countrySelect = document.getElementById('countrySelect');
-    const countries = [...new Set(keywordData.map(item => item.Market))].sort();
+// Populate Filters Function
+function populateFilters() {
+    populateFilter('marketFilter', 'Market');
+    populateFilter('segmentFilter', 'PageType_Botify_Merged');
+    populateFilter('clusterFilter', 'Cluster');
+}
+
+// Populate Individual Filter
+function populateFilter(filterId, dataKey) {
+    const filterElement = document.getElementById(filterId);
+    const uniqueValues = [...new Set(keywordData.map(item => item[dataKey]))].sort();
     
-    countries.forEach(country => {
+    filterElement.innerHTML = '';
+    uniqueValues.forEach(value => {
         const option = document.createElement('option');
-        option.value = country;
-        option.textContent = country;
-        countrySelect.appendChild(option);
+        option.value = value;
+        option.textContent = value;
+        filterElement.appendChild(option);
     });
 }
 
-// Event Listeners for Filters
-document.getElementById('avgPositionSelect').addEventListener('change', () => {
-    const select = document.getElementById('avgPositionSelect');
-    const selectedOptions = Array.from(select.selectedOptions).map(option => option.value);
+// Add Filter Event Listeners
+function addFilterEventListeners() {
+    const filterMapping = {
+        'marketFilter': 'Market',
+        'segmentFilter': 'PageType_Botify_Merged',
+        'clusterFilter': 'Cluster'
+    };
 
-    if (selectedOptions.length > 0) {
-        filters.avgPosition = selectedOptions;
-    } else {
-        delete filters.avgPosition;
-    }
-    currentPage = 1;
-    loadRequiredChunks();
-    renderTable();
-    renderActiveFilters();
-    renderPagination();
-});
+    ['marketFilter', 'segmentFilter', 'clusterFilter'].forEach(filterId => {
+        const element = document.getElementById(filterId);
+        if (element) {
+            element.addEventListener('change', (event) => {
+                const select = event.target;
+                const selectedOptions = Array.from(select.selectedOptions).map(option => option.value);
+                const filterKey = filterMapping[filterId];
 
-document.getElementById('clusterSelect').addEventListener('change', () => {
-    const select = document.getElementById('clusterSelect');
-    const selectedOptions = Array.from(select.selectedOptions).map(option => option.value);
+                if (selectedOptions.length > 0) {
+                    filters[filterKey] = selectedOptions;
+                } else {
+                    delete filters[filterKey];
+                }
+                currentPage = 1;
+                renderTable();
+                renderActiveFilters();
+                renderPagination();
+                updateChart(applyFilters(keywordData, filters));
+            });
+        } else {
+            console.error(`Filter element ${filterId} not found`);
+        }
+    });
+}
 
-    if (selectedOptions.length > 0) {
-        filters.cluster_label = selectedOptions;
-    } else {
-        delete filters.cluster_label;
-    }
-    currentPage = 1;
-    loadRequiredChunks();
-    renderTable();
-    renderActiveFilters();
-    renderPagination();
-});
-
-document.getElementById('countrySelect').addEventListener('change', () => {
-    const select = document.getElementById('countrySelect');
-    const selectedOptions = Array.from(select.selectedOptions).map(option => option.value);
-
-    if (selectedOptions.length > 0) {
-        filters.country = selectedOptions;
-    } else {
-        delete filters.country;
-    }
-    currentPage = 1;
-    loadRequiredChunks();
-    renderTable();
-    renderActiveFilters();
-    renderPagination();
-});
+// Get Filtered Data Function
+function getFilteredData() {
+    const filteredData = applyFilters(keywordData, filters);
+    console.log('Filtered data:', filteredData); // For debugging
+    return filteredData;
+}
