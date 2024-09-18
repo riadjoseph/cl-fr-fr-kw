@@ -24,24 +24,39 @@
             padding: 20px; 
             font-size: 16px;
         }
-        .header { 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-        }
-        .header img {
-            max-height: 40px;
-            width: auto;
-            margin: 5px;
-        }
-        .header h1 {
-            font-size: 1.2em;
-            margin: 10px 0;
-            text-align: center;
-            width: 100%;
-        }
+    header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #f8f8f8;
+}
+
+    nav ul {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+}
+
+    nav ul li {
+    margin-right: 20px;
+}
+
+    nav ul li a {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+}
+
+    .logos {
+    display: flex;
+    align-items: center;
+}
+
+    .logo {
+    height: 30px;
+    margin-left: 10px;
+}
         .alert { 
             background-color: rgba(168, 58, 238, 0.2); /* Light shade of rgb(168, 58, 238) */
             padding: 10px; 
@@ -166,7 +181,7 @@
     </style>
 </head>
 <body>
-    <header class="header">
+    <header>
         <nav>
             <ul>
                 <li><a href="/">Start</a></li>
