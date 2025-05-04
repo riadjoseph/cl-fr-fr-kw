@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 500 300" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Subtle gradient background -->
+    <linearGradient id="backgroundGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffffff;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#f9f9f9;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="500" height="300" fill="url(#backgroundGradient)" />
+  
+  <!-- Text in Twentieth Century with stylish modern aesthetic -->
+  <text x="250" y="130" font-family="'Twentieth Century', 'Avant Garde', 'ITC Avant Garde Gothic', 'Century Gothic', 'Futura', sans-serif" font-weight="600" font-size="52" text-anchor="middle" fill="#333333" letter-spacing="3">WAKE UP</text>
+  
+  <text x="250" y="200" font-family="'Twentieth Century', 'Avant Garde', 'ITC Avant Garde Gothic', 'Century Gothic', 'Futura', sans-serif" font-weight="600" font-size="72" text-anchor="middle" fill="#333333" letter-spacing="4">HAPPY</text>
+  
+  <!-- Subtle underline -->
+  <line x1="150" y1="220" x2="350" y2="220" stroke="#333333" stroke-width="1" opacity="0.5" />
+</svg>
